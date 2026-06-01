@@ -1,0 +1,4 @@
+@import "tailwindcss";
+
+/* Esta linha avisa ao Tailwind v4 para ativar as cores escuras quando a classe .dark for usada */
+@custom-variant dark (&:where(.dark, .dark *));
