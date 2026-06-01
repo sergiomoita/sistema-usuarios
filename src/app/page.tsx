@@ -1,21 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Sun, Moon } from "lucide-react";
 import { mockUsers } from "../lib/mockData";
 
 export default function Home() {
+  const router = useRouter();
   const [busca, setBusca] = useState("");
   const [isDark, setIsDark] = useState(false);
 
-  // Função para alternar o tema manualmente
+  // LER do navegador assim que a tela carrega
+  // LER do navegador assim que a tela carrega
+  useEffect(() => {
+    const temaSalvo = localStorage.getItem("tema-sistema");
+    const isDarkTheme = temaSalvo === "dark";
+
+    // Atualiza o HTML visualmente primeiro
+    if (isDarkTheme) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
+    // O setTimeout evita o erro de "cascading render",
+    // jogando a atualização do estado para o próximo ciclo do React
+    setTimeout(() => {
+      setIsDark(isDarkTheme);
+    }, 0);
+  }, []);
+
+  // SALVAR no navegador quando o usuário clica no botão
   const toggleTheme = () => {
     if (isDark) {
       document.documentElement.classList.remove("dark");
+      localStorage.setItem("tema-sistema", "light");
       setIsDark(false);
     } else {
       document.documentElement.classList.add("dark");
+      localStorage.setItem("tema-sistema", "dark");
       setIsDark(true);
     }
   };
@@ -88,6 +112,7 @@ export default function Home() {
                 usuariosFiltrados.map((user) => (
                   <tr
                     key={user.id}
+                    onClick={() => router.push(`/usuario/${user.id}`)}
                     className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
                   >
                     <td className="px-6 py-4 font-medium">{user.name}</td>
