@@ -7,13 +7,10 @@ export default async function DetalhesUsuario({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  // Aguarda e extrai o ID da URL
   const { id } = await params;
 
-  // Busca o usuário na nossa lista falsa (futuramente será no banco de dados)
   const usuario = mockUsers.find((u) => u.id === id);
 
-  // Se o usuário não existir, mostra a página 404 padrão do Next.js
   if (!usuario) {
     notFound();
   }

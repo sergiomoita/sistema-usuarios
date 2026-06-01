@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Definição da nossa tabela no banco de dados
+model User {
+  id        String   @id @default(uuid()) // Gera um ID único seguro automaticamente
+  name      String
+  email     String   @unique              // Impede e-mails duplicados
+  birthDate DateTime
+  phone     String?                       // A interrogação indica que o campo é opcional
+  nickname  String?  
+  createdAt DateTime @default(now())      // Salva a data exata da criação
+  updatedAt DateTime @updatedAt           // Atualiza a data sozinho quando editado
+}
